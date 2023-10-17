@@ -18,6 +18,10 @@ class Sac(
         get() = getY(ptr)
         set(value) = setY(ptr, value)
 
+    val values: Triple<SacHeader, FloatArray, FloatArray> get() = use {
+        return Triple(h, x, y)
+    }
+
     fun writeHeader() = wh(ptr)
     fun setEndian(endian: Endian) = setEndian(ptr, endian.ordinal)
     fun write() = w(ptr)
@@ -67,18 +71,6 @@ class Sac(
 
         @JvmStatic
         private external fun drop(ptr: Long)
-
-        internal fun readToSacHeader(file: File, endian: Endian): SacHeader {
-            val ptr = rh(
-                path = file.absolutePath,
-                endian = endian.ordinal
-            )
-
-            val h = getHeader(ptr)
-
-            drop(ptr)
-            return h
-        }
 
         fun readHeader(file: File, endian: Endian): Sac {
             val ptr = rh(

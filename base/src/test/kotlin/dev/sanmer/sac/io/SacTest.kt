@@ -9,89 +9,72 @@ class SacTest {
 
     @Test
     fun test_read() {
-        val sac = Sac.read(
+        val (h, _, y) = Sac.read(
             file = file,
             endian = Endian.Little
-        )
+        ).values
 
-        sac.use {
-            val h = it.h
-            val y = it.y
+        assertEquals(h.delta, 0.01f)
+        assertEquals(h.npts, 1000)
+        assertEquals(h.kstnm, "CDV")
 
-            assertEquals(h.delta, 0.01f)
-            assertEquals(h.npts, 1000)
-            assertEquals(h.kstnm, "CDV")
-
-            assertEquals(y.first(), -0.09728001f)
-            assertEquals(y.last(), -0.07680000f)
-            assertEquals(y.size, h.npts)
-        }
+        assertEquals(y.first(), -0.09728001f)
+        assertEquals(y.last(), -0.07680000f)
+        assertEquals(y.size, h.npts)
     }
 
     @Test
     fun test_readHeader() {
-        val hdr = SacHeader.read(
+        val h0 = SacHeader.read(
             file = file,
             endian = Endian.Little
         )
 
-        assertEquals(hdr.delta, 0.01f)
-        assertEquals(hdr.t[0], -12345f)
-        assertEquals(hdr.npts, 1000)
-        assertEquals(hdr.leven, true)
-        assertEquals(hdr.kt[0], "-12345")
-        assertEquals(hdr.kstnm, "CDV")
+        assertEquals(h0.delta, 0.01f)
+        assertEquals(h0.t[0], -12345f)
+        assertEquals(h0.npts, 1000)
+        assertEquals(h0.leven, true)
+        assertEquals(h0.kt[0], "-12345")
+        assertEquals(h0.kstnm, "CDV")
 
-        val sac = Sac.readHeader(
+        val (h1, _, y) = Sac.readHeader(
             file = file,
             endian = Endian.Little
-        )
+        ).values
 
-        sac.use {
-            val h = it.h
-            val y = it.y
+        assertEquals(h1.delta, 0.01f)
+        assertEquals(h1.npts, 1000)
+        assertEquals(h1.kstnm, "CDV")
 
-            assertEquals(h.delta, 0.01f)
-            assertEquals(h.npts, 1000)
-            assertEquals(h.kstnm, "CDV")
-
-            assertEquals(y.firstOrNull(), null)
-            assertEquals(y.lastOrNull(), null)
-            assertEquals(y.size, 0)
-        }
+        assertEquals(y.firstOrNull(), null)
+        assertEquals(y.lastOrNull(), null)
+        assertEquals(y.size, 0)
     }
 
     @Test
     fun test_write() {
         val fileT = File("src/test/resources/test_t.sac")
 
-        val sac = Sac.read(
+        Sac.read(
             file = file,
             endian = Endian.Little
-        )
-
-        sac.use {
+        ).use {
             it.setEndian(Endian.Big)
             it.writeTo(fileT)
         }
 
-        val sacT = Sac.read(
+        val (h, _, y) = Sac.read(
             file = fileT,
             endian = Endian.Big
-        )
+        ).values
 
-        sacT.use {
-            val h = it.h
-            val y = it.y
+        assertEquals(h.delta, 0.01f)
+        assertEquals(h.npts, 1000)
+        assertEquals(h.kstnm, "CDV")
 
-            assertEquals(h.delta, 0.01f)
-            assertEquals(h.npts, 1000)
-            assertEquals(h.kstnm, "CDV")
-
-            assertEquals(y.first(), -0.09728001f)
-            assertEquals(y.last(), -0.07680000f)
-            assertEquals(y.size, h.npts)
-        }
+        assertEquals(y.first(), -0.09728001f)
+        assertEquals(y.last(), -0.07680000f)
+        assertEquals(y.size, h.npts)
 
         fileT.delete()
     }
@@ -101,39 +84,27 @@ class SacTest {
         val fileH = File("src/test/resources/test_h.sac")
         file.copyTo(fileH, overwrite = true)
 
-        val sac = Sac.readHeader(
+        SacHeader.update(
             file = fileH,
             endian = Endian.Little
-        )
-
-        sac.use {
-            val newH = it.h
-
-            newH.t[0] = 10.0f
-            newH.kt[0] = "P"
-            newH.kstnm = "VDC"
-
-            it.h = newH
-            it.writeHeader()
+        ) {
+            t[0] = 10.0f
+            kt[0] = "P"
+            kstnm = "VDC"
         }
 
-        val sacN = Sac.read(
+        val (h, _, y) = Sac.read(
             file = fileH,
             endian = Endian.Little
-        )
+        ).values
 
-        sacN.use {
-            val h = it.h
-            val y = it.y
+        assertEquals(h.t[0], 10.0f)
+        assertEquals(h.kt[0], "P")
+        assertEquals(h.kstnm, "VDC")
 
-            assertEquals(h.t[0], 10.0f)
-            assertEquals(h.kt[0], "P")
-            assertEquals(h.kstnm, "VDC")
-
-            assertEquals(y.first(), -0.09728001f)
-            assertEquals(y.last(), -0.07680000f)
-            assertEquals(y.size, h.npts)
-        }
+        assertEquals(y.first(), -0.09728001f)
+        assertEquals(y.last(), -0.07680000f)
+        assertEquals(y.size, h.npts)
 
         fileH.delete()
     }

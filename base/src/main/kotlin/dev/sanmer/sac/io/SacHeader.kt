@@ -81,6 +81,17 @@ class SacHeader(
     var kinst: String
 ) {
     companion object {
-        fun read(file: File, endian: Endian) = Sac.readToSacHeader(file, endian)
+        fun read(file: File, endian: Endian): SacHeader {
+            Sac.readHeader(file, endian).use {
+                return it.h
+            }
+        }
+
+        fun update(file: File, endian: Endian, block: SacHeader.() -> Unit) {
+            Sac.readHeader(file, endian).use {
+                it.h = it.h.apply(block)
+                it.writeHeader()
+            }
+        }
     }
 }
