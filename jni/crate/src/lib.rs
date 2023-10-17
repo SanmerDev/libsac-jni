@@ -18,7 +18,7 @@ fn get_path(env: &mut JNIEnv, path: &JString) -> String {
             env.throw_new("java/lang/IllegalArgumentException", err.to_string())
                 .unwrap();
 
-            unreachable!()
+            String::default()
         }
     }
 }
@@ -33,7 +33,7 @@ where
             env.throw_new("java/io/IOException", err.to_string())
                 .unwrap();
 
-            unreachable!()
+            jlong::default()
         }
     }
 }
@@ -58,7 +58,7 @@ fn new_float_array<'a>(env: &mut JNIEnv<'a>, length: jsize) -> JFloatArray<'a> {
             env.throw_new("java/lang/RuntimeException", err.to_string())
                 .unwrap();
 
-            unreachable!()
+            JFloatArray::default()
         }
     }
 }
@@ -69,8 +69,6 @@ fn set_float_array(env: &mut JNIEnv, array: &JFloatArray, buf: &[jfloat]) {
         Err(err) => {
             env.throw_new("java/lang/RuntimeException", err.to_string())
                 .unwrap();
-
-            unreachable!()
         }
     }
 }
@@ -81,8 +79,6 @@ fn get_float_array(env: &mut JNIEnv, array: &JFloatArray, buf: &mut [jfloat]) {
         Err(err) => {
             env.throw_new("java/lang/RuntimeException", err.to_string())
                 .unwrap();
-
-            unreachable!()
         }
     }
 }
@@ -115,12 +111,12 @@ pub extern "system" fn Java_dev_sanmer_sac_io_Sac_r(
 
 #[no_mangle]
 pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_wh(
-    _env: JNIEnv,
+    mut env: JNIEnv,
     _class: JClass,
     ptr: jlong,
 ) {
     let sac = &*(ptr as *mut Sac);
-    sac.write_header().expect("Couldn't write sac file!");
+    safe_write(&mut env, || sac.write_header());
 }
 
 #[no_mangle]
@@ -159,7 +155,7 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_getHeader<'local>(
             env.throw_new("java/lang/IllegalArgumentException", err.to_string())
                 .unwrap();
 
-            unreachable!()
+            JObject::null()
         }
     }
 }
