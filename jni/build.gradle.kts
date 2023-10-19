@@ -18,7 +18,7 @@ fun configureTarget(id: String, debug: Boolean, fileName: String, bundleName: St
         isPreserveFileTimestamps = false
 
         from(compileTask) {
-            into("/dev/sanmer/sac/io/")
+            into("/")
             rename { bundleName }
         }
     }

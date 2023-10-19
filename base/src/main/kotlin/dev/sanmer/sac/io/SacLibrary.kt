@@ -18,12 +18,12 @@ object SacLibrary {
             return System.getenv("SAC_JNI_LIBRARY_PATH")
         }
 
-        val libraryURL = checkNotNull(javaClass.getResource("/dev/sanmer/sac/io/${LIBRARY_NAME}"))
+        val libraryURL = checkNotNull(javaClass.getResource("/${LIBRARY_NAME}"))
         if (libraryURL.protocol != "jar") {
             throw LinkageError("Load $LIBRARY_NAME")
         }
 
-        val libsDir = Files.createTempDirectory("sac-jni-").toFile()
+        val libsDir = Files.createTempDirectory("sac-jni").toFile()
         libsDir.deleteOnExit()
 
         val libraryFile = File(libsDir, LIBRARY_NAME)
