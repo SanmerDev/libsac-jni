@@ -679,4 +679,12 @@ public class SacHeader {
     public void setKinst(String kinst) {
         this.kinst = kinst;
     }
+
+    public static SacHeader read(File file, Endian endian) {
+        Sac sac = Sac.readHeader(file, endian);
+        SacHeader h = sac.getH();
+
+        sac.close();
+        return h;
+    }
 }

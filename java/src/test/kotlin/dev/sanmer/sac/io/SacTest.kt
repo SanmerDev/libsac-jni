@@ -26,6 +26,15 @@ class SacTest {
 
     @Test
     fun test_readHeader() {
+        val h0 = SacHeader.read(file, Endian.Little)
+
+        assertEquals(h0.delta, 0.01f)
+        assertEquals(h0.t[0], -12345f)
+        assertEquals(h0.npts, 1000)
+        assertEquals(h0.isLeven, true)
+        assertEquals(h0.kt[0], "-12345")
+        assertEquals(h0.kstnm, "CDV")
+
         val sac = Sac.readHeader(file, Endian.Little)
         val h1 = sac.h
         val y = sac.y
