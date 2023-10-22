@@ -18,10 +18,6 @@ class Sac(
         get() = getY(ptr)
         set(value) = setY(ptr, value)
 
-    val values: Triple<SacHeader, FloatArray, FloatArray> get() = use {
-        return Triple(h, x, y)
-    }
-
     fun writeHeader() = wh(ptr)
     fun setEndian(endian: Endian) = setEndian(ptr, endian.ordinal)
     fun write() = w(ptr)
