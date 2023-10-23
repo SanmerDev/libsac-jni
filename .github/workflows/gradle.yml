@@ -1,0 +1,52 @@
+name: Java
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  test:
+    name: Test on macos-latest
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+        
+      - name: Download JBR 17
+        run: |
+          download_url="https://cache-redirector.jetbrains.com/intellij-jbr/jbrsdk-17.0.8.1-linux-x64-b1080.1.tar.gz"
+          curl -o $RUNNER_TEMP/jbr.tar.gz -L $download_url
+
+      - name: Set up JBR 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/jbr.tar.gz
+          java-version: '17'
+          architecture: x64
+
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
+
+      - name: Test Java
+        run: ./gradlew java:test
+
+      - name: Test Kotlin
+        run: ./gradlew kotlin:test
