@@ -96,4 +96,10 @@ public class Sac implements Closeable {
         long ptr = read(file.getAbsolutePath(), endian.ordinal());
         return new Sac(ptr);
     }
+
+    public static Sac empty(File file, Endian endian) {
+        long ptr = empty(file.getAbsolutePath(), endian.ordinal());
+        return new Sac(ptr);
+    }
+
 }
