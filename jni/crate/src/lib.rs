@@ -1,10 +1,9 @@
-use std::error::Error;
 use std::path::Path;
 
+use jni::JNIEnv;
 use jni::objects::{JClass, JFloatArray, JObject, JString};
 use jni::sys::{jfloat, jint, jlong, jsize};
-use jni::JNIEnv;
-use libsac::Sac;
+use libsac::{Sac, SacError};
 
 use crate::impl_helper::JNIEnvHelper;
 
@@ -25,7 +24,7 @@ fn get_path(env: &mut JNIEnv, path: &JString) -> String {
 
 fn safe_read<F>(env: &mut JNIEnv, read: F) -> jlong
 where
-    F: Fn() -> Result<Sac, Box<dyn Error>>,
+    F: Fn() -> Result<Sac, SacError>,
 {
     match read() {
         Ok(v) => Box::into_raw(Box::new(v)) as jlong,
@@ -40,7 +39,7 @@ where
 
 fn safe_write<F>(env: &mut JNIEnv, write: F)
 where
-    F: Fn() -> Result<(), Box<dyn Error>>,
+    F: Fn() -> Result<(), SacError>,
 {
     match write() {
         Ok(_) => {}
@@ -107,6 +106,21 @@ pub extern "system" fn Java_dev_sanmer_sac_io_Sac_read(
     let path = Path::new(&path);
     let endian = env.get_sac_endian(endian);
     safe_read(&mut env, || Sac::read(path, endian))
+}
+
+#[no_mangle]
+pub extern "system" fn Java_dev_sanmer_sac_io_Sac_empty(
+    mut env: JNIEnv,
+    _class: JClass,
+    path: JString,
+    endian: jint,
+) -> jlong {
+    let path = get_path(&mut env, &path);
+    let path = Path::new(&path);
+    let endian = env.get_sac_endian(endian);
+
+    let sac = Sac::new(path, endian);
+    Box::into_raw(Box::new(sac)) as jlong
 }
 
 #[no_mangle]

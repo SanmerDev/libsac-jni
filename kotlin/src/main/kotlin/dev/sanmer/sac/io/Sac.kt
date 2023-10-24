@@ -36,6 +36,9 @@ class Sac(
         private external fun read(path: String, endian: Int): Long
 
         @JvmStatic
+        private external fun empty(path: String, endian: Int): Long
+
+        @JvmStatic
         private external fun writeHeader(ptr: Long)
 
         @JvmStatic
@@ -79,6 +82,15 @@ class Sac(
 
         fun read(file: File, endian: Endian): Sac {
             val ptr = read(
+                path = file.absolutePath,
+                endian = endian.ordinal
+            )
+
+            return Sac(ptr)
+        }
+
+        fun empty(file: File, endian: Endian): Sac {
+            val ptr = empty(
                 path = file.absolutePath,
                 endian = endian.ordinal
             )

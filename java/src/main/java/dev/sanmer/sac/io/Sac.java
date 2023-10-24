@@ -63,6 +63,8 @@ public class Sac implements Closeable {
 
     private static native long read(String path, int endian);
 
+    private static native long empty(String path, int endian);
+
     private static native void writeHeader(long ptr);
 
     private static native void write(long ptr);
