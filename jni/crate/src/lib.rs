@@ -1,8 +1,8 @@
 use std::path::Path;
 
-use jni::JNIEnv;
 use jni::objects::{JClass, JFloatArray, JObject, JString};
 use jni::sys::{jfloat, jint, jlong, jsize};
+use jni::JNIEnv;
 use libsac::{Sac, SacError};
 
 use crate::impl_helper::JNIEnvHelper;
