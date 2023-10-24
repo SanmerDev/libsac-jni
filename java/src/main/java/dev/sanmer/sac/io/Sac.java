@@ -35,7 +35,7 @@ public class Sac implements Closeable {
     }
 
     public void writeHeader() {
-        wh(ptr);
+        writeHeader(ptr);
     }
 
     public void setEndian(Endian endian) {
@@ -43,11 +43,11 @@ public class Sac implements Closeable {
     }
 
     public void write() {
-        w(ptr);
+        write(ptr);
     }
 
     public void writeTo(File file) {
-        wt(ptr, file.getAbsolutePath());
+        writeTo(ptr, file.getAbsolutePath());
     }
 
     @Override
@@ -59,15 +59,15 @@ public class Sac implements Closeable {
         SacLibrary.load();
     }
 
-    private static native long rh(String path, int endian);
+    private static native long readHeader(String path, int endian);
 
-    private static native long r(String path, int endian);
+    private static native long read(String path, int endian);
 
-    private static native void wh(long ptr);
+    private static native void writeHeader(long ptr);
 
-    private static native void w(long ptr);
+    private static native void write(long ptr);
 
-    private static native void wt(long ptr, String path);
+    private static native void writeTo(long ptr, String path);
 
     private static native SacHeader getHeader(long ptr);
 
@@ -86,12 +86,12 @@ public class Sac implements Closeable {
     private static native void drop(long ptr);
 
     public static Sac readHeader(File file, Endian endian) {
-        long ptr = rh(file.getAbsolutePath(), endian.ordinal());
+        long ptr = readHeader(file.getAbsolutePath(), endian.ordinal());
         return new Sac(ptr);
     }
 
     public static Sac read(File file, Endian endian) {
-        long ptr = r(file.getAbsolutePath(), endian.ordinal());
+        long ptr = read(file.getAbsolutePath(), endian.ordinal());
         return new Sac(ptr);
     }
 }

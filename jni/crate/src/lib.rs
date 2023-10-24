@@ -84,7 +84,7 @@ fn get_float_array(env: &mut JNIEnv, array: &JFloatArray, buf: &mut [jfloat]) {
 }
 
 #[no_mangle]
-pub extern "system" fn Java_dev_sanmer_sac_io_Sac_rh(
+pub extern "system" fn Java_dev_sanmer_sac_io_Sac_readHeader(
     mut env: JNIEnv,
     _class: JClass,
     path: JString,
@@ -97,7 +97,7 @@ pub extern "system" fn Java_dev_sanmer_sac_io_Sac_rh(
 }
 
 #[no_mangle]
-pub extern "system" fn Java_dev_sanmer_sac_io_Sac_r(
+pub extern "system" fn Java_dev_sanmer_sac_io_Sac_read(
     mut env: JNIEnv,
     _class: JClass,
     path: JString,
@@ -110,7 +110,7 @@ pub extern "system" fn Java_dev_sanmer_sac_io_Sac_r(
 }
 
 #[no_mangle]
-pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_wh(
+pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_writeHeader(
     mut env: JNIEnv,
     _class: JClass,
     ptr: jlong,
@@ -120,7 +120,7 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_wh(
 }
 
 #[no_mangle]
-pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_w(
+pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_write(
     mut env: JNIEnv,
     _class: JClass,
     ptr: jlong,
@@ -130,7 +130,7 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_w(
 }
 
 #[no_mangle]
-pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_wt(
+pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_writeTo(
     mut env: JNIEnv,
     _class: JClass,
     ptr: jlong,
