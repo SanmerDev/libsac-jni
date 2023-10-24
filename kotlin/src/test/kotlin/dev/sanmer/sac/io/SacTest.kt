@@ -78,12 +78,16 @@ class SacTest {
     @Test
     fun test_writeHeader() {
         val fileH = File("src/test/resources/test_h.sac")
-        file.copyTo(fileH, overwrite = true)
+        file.copyTo(fileH)
 
-        SacHeader.update(file = fileH, endian = Endian.Little) {
-            t[0] = 10.0f
-            kt[0] = "P"
-            kstnm = "VDC"
+        Sac.readHeader(file = fileH, endian = Endian.Little).use {
+            val h = it.h
+            h.t[0] = 10.0f
+            h.kt[0] = "P"
+            h.kstnm = "VDC"
+
+            it.h = h
+            it.writeHeader()
         }
 
         val sac = Sac.read(file = fileH, endian = Endian.Little)
@@ -100,5 +104,32 @@ class SacTest {
 
         sac.close()
         fileH.delete()
+    }
+
+    @Test
+    fun test_empty() {
+        val fileN = File("src/test/resources/test_new.sac")
+        Sac.empty(file = fileN, endian = Endian.Little).use {
+            val h = it.h
+            h.iftype = 4 // XY
+
+            it.h = h
+            it.write()
+        }
+
+        val sac = Sac.read(file = fileN, endian = Endian.Little)
+        val h1 = sac.h
+        val y = sac.y
+
+        assertEquals(h1.delta, -12345f)
+        assertEquals(h1.npts, 0)
+        assertEquals(h1.kstnm, "-12345")
+
+        assertEquals(y.firstOrNull(), null)
+        assertEquals(y.lastOrNull(), null)
+        assertEquals(y.size, 0)
+
+        sac.close()
+        fileN.delete()
     }
 }
