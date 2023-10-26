@@ -12,10 +12,12 @@ class SacTest {
         val sac = Sac.read(file, Endian.Little)
         val h = sac.h
         val y = sac.y
+        val fileType = SacFileType.valueBy(h.iftype)
 
         assertEquals(h.delta, 0.01f)
         assertEquals(h.npts, 1000)
         assertEquals(h.kstnm, "CDV")
+        assertEquals(fileType, SacFileType.Time)
 
         assertEquals(y.first(), -0.09728001f)
         assertEquals(y.last(), -0.07680000f)
@@ -111,7 +113,7 @@ class SacTest {
         val fileN = File("src/test/resources/test_new.sac")
         Sac.empty(fileN, Endian.Little).use {
             val h = it.h
-            h.iftype = 4 // XY
+            h.iftype = SacFileType.Time.iftype
 
             it.h = h
             it.write()
