@@ -214,47 +214,47 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_drop(
 }
 
 #[no_mangle]
-pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_getX<'local>(
+pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_getFirst<'local>(
     mut env: JNIEnv<'local>,
     _obj: JObject,
     ptr: jlong,
 ) -> JFloatArray<'local> {
     let sac = &*(ptr as *mut Sac);
-    let array = new_float_array(&mut env, sac.x.len() as jsize);
-    set_float_array(&mut env, &array, &sac.x);
+    let array = new_float_array(&mut env, sac.first.len() as jsize);
+    set_float_array(&mut env, &array, &sac.first);
     array
 }
 
 #[no_mangle]
-pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_setX(
+pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_setFirst(
     mut env: JNIEnv,
     _obj: JObject,
     ptr: jlong,
     array: JFloatArray,
 ) {
     let sac = &mut *(ptr as *mut Sac);
-    get_float_array(&mut env, &array, &mut sac.x);
+    get_float_array(&mut env, &array, &mut sac.first);
 }
 
 #[no_mangle]
-pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_getY<'local>(
+pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_getSecond<'local>(
     mut env: JNIEnv<'local>,
     _obj: JObject,
     ptr: jlong,
 ) -> JFloatArray<'local> {
     let sac = &*(ptr as *mut Sac);
-    let array = new_float_array(&mut env, sac.y.len() as jsize);
-    set_float_array(&mut env, &array, &sac.y);
+    let array = new_float_array(&mut env, sac.second.len() as jsize);
+    set_float_array(&mut env, &array, &sac.second);
     array
 }
 
 #[no_mangle]
-pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_setY(
+pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_setSecond(
     mut env: JNIEnv,
     _obj: JObject,
     ptr: jlong,
     array: JFloatArray,
 ) {
     let sac = &mut *(ptr as *mut Sac);
-    get_float_array(&mut env, &array, &mut sac.y);
+    get_float_array(&mut env, &array, &mut sac.second);
 }

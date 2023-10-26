@@ -10,28 +10,28 @@ public class Sac implements Closeable {
         this.ptr = ptr;
     }
 
-    public SacHeader getH() {
+    public SacHeader getHeader() {
         return getHeader(ptr);
     }
 
-    public void setH(SacHeader value) {
+    public void setHeader(SacHeader value) {
         setHeader(ptr, value);
     }
 
-    public float[] getX() {
-        return getX(ptr);
+    public float[] getFirst() {
+        return getFirst(ptr);
     }
 
-    public void setX(float[] value) {
-        setX(ptr, value);
+    public void setFirst(float[] value) {
+        setFirst(ptr, value);
     }
 
-    public float[] getY() {
-        return getY(ptr);
+    public float[] getSecond() {
+        return getSecond(ptr);
     }
 
-    public void setY(float[] value) {
-        setY(ptr, value);
+    public void setSecond(float[] value) {
+        setSecond(ptr, value);
     }
 
     public void writeHeader() {
@@ -75,13 +75,13 @@ public class Sac implements Closeable {
 
     private static native void setHeader(long ptr, SacHeader h);
 
-    private static native float[] getX(long ptr);
+    private static native float[] getFirst(long ptr);
 
-    private static native void setX(long ptr, float[] x);
+    private static native void setFirst(long ptr, float[] x);
 
-    private static native float[] getY(long ptr);
+    private static native float[] getSecond(long ptr);
 
-    private static native void setY(long ptr, float[] y);
+    private static native void setSecond(long ptr, float[] y);
 
     private static native void setEndian(long ptr, int endian);
 

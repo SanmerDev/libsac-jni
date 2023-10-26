@@ -682,7 +682,7 @@ public class SacHeader {
 
     public static SacHeader read(File file, Endian endian) {
         Sac sac = Sac.readHeader(file, endian);
-        SacHeader h = sac.getH();
+        SacHeader h = sac.getHeader();
 
         sac.close();
         return h;
