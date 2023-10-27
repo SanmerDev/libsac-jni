@@ -14,18 +14,18 @@ public class Main {
         File file = new File("src/test/resources/test.sac");
 
         try (Sac sac = Sac.readHeader(file, Endian.Little)) {
-            SacHeader h = sac.getH();
+            SacHeader h = sac.getHeader();
             h.getT()[0] = 10.0f;
             h.getKt()[0] = "P";
             h.setKstnm("VDC");
 
-            sac.setH(h);
+            sac.setHeader(h);
             sac.writeHeader();
         }
 
         Sac sac = Sac.read(file, Endian.Little);
-        SacHeader h = sac.getH();
-        float[] y = sac.getY();
+        SacHeader h = sac.getHeader();
+        float[] y = sac.getFirst();
 
         System.out.println("t0 = " + h.getT()[0]);
         System.out.println("kt0 = " + h.getKt()[0]);
@@ -49,18 +49,18 @@ fun main() {
     val file = File("src/test/resources/test.sac")
 
     Sac.readHeader(file, Endian.Little).use {
-        val h = it.h
+        val h = it.header
         h.t[0] = 10.0f
         h.kt[0] = "P"
         h.kstnm = "VDC"
 
-        it.h = h
+        it.header = h
         it.writeHeader()
     }
 
     val sac = Sac.read(file, Endian.Little)
-    val h = sac.h
-    val y = sac.y
+    val h = sac.header
+    val y = sac.first
 
     println("t0 = ${h.t[0]}")
     println("kt0 = ${h.kt[0]}")
