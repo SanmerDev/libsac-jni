@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-libsac = { git = "https://github.com/ya0211/libsac.git", branch = "main" }
+libsac = { git = "https://github.com/SanmerDev/libsac.git", branch = "main" }
 jni = "0.21.1"
 
 [lib]
