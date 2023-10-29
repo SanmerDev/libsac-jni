@@ -1,5 +1,5 @@
 # libsac-jni
-Java bindings for Rust library [libsac](https://github.com/ya0211/libsac)
+Java bindings for Rust library [libsac](https://github.com/SanmerDev/libsac)
 
 ## java
 ```java

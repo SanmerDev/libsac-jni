@@ -2,5 +2,5 @@
 Native code of library libsac-jni
 
 ## dependency
-- [libsac](https://github.com/ya0211/libsac)
+- [libsac](https://github.com/SanmerDev/libsac)
 
