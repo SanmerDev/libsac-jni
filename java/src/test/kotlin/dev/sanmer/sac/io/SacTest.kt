@@ -8,7 +8,7 @@ class SacTest {
     private val file = File("src/test/resources/test.sac")
 
     @Test
-    fun test_read() {
+    fun read() {
         val sac = Sac.read(file, Endian.Little)
         val h = sac.header
         val y = sac.first
@@ -27,7 +27,7 @@ class SacTest {
     }
 
     @Test
-    fun test_readHeader() {
+    fun readHeader() {
         val h0 = SacHeader.read(file, Endian.Little)
 
         assertEquals(h0.delta, 0.01f)
@@ -53,7 +53,7 @@ class SacTest {
     }
 
     @Test
-    fun test_write() {
+    fun write() {
         val fileT = File("src/test/resources/test_t.sac")
 
         Sac.read(file, Endian.Little).use {
@@ -78,7 +78,7 @@ class SacTest {
     }
 
     @Test
-    fun test_writeHeader() {
+    fun writeHeader() {
         val fileH = File("src/test/resources/test_h.sac")
         file.copyTo(fileH)
 
@@ -109,7 +109,7 @@ class SacTest {
     }
 
     @Test
-    fun test_empty() {
+    fun empty() {
         val fileN = File("src/test/resources/test_new.sac")
         Sac.empty(fileN, Endian.Little).use {
             val h = it.header

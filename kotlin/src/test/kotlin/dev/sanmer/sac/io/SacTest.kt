@@ -8,8 +8,8 @@ class SacTest {
     private val file = File("src/test/resources/test.sac")
 
     @Test
-    fun test_read() {
-        val sac = Sac.read(file = file, endian = Endian.Little)
+    fun read() {
+        val sac = Sac.read(file, Endian.Little)
         val h = sac.header
         val y = sac.first
         val fileType = SacFileType.valueBy(h.iftype)
@@ -27,8 +27,8 @@ class SacTest {
     }
 
     @Test
-    fun test_readHeader() {
-        val h0 = SacHeader.read(file = file, endian = Endian.Little)
+    fun readHeader() {
+        val h0 = SacHeader.read(file, Endian.Little)
 
         assertEquals(h0.delta, 0.01f)
         assertEquals(h0.t[0], -12345f)
@@ -37,7 +37,7 @@ class SacTest {
         assertEquals(h0.kt[0], "-12345")
         assertEquals(h0.kstnm, "CDV")
 
-        val sac = Sac.readHeader(file = file, endian = Endian.Little)
+        val sac = Sac.readHeader(file, Endian.Little)
         val h1 = sac.header
         val y = sac.first
 
@@ -53,15 +53,15 @@ class SacTest {
     }
 
     @Test
-    fun test_write() {
+    fun write() {
         val fileT = File("src/test/resources/test_t.sac")
 
-        Sac.read(file = file, endian = Endian.Little).use {
+        Sac.read(file, Endian.Little).use {
             it.setEndian(Endian.Big)
             it.writeTo(fileT)
         }
 
-        val sac = Sac.read(file = fileT, endian = Endian.Big)
+        val sac = Sac.read(fileT, Endian.Big)
         val h = sac.header
         val y = sac.first
 
@@ -78,11 +78,11 @@ class SacTest {
     }
 
     @Test
-    fun test_writeHeader() {
+    fun writeHeader() {
         val fileH = File("src/test/resources/test_h.sac")
         file.copyTo(fileH)
 
-        Sac.readHeader(file = fileH, endian = Endian.Little).use {
+        Sac.readHeader(fileH, Endian.Little).use {
             val h = it.header
             h.t[0] = 10.0f
             h.kt[0] = "P"
@@ -92,7 +92,7 @@ class SacTest {
             it.writeHeader()
         }
 
-        val sac = Sac.read(file = fileH, endian = Endian.Little)
+        val sac = Sac.read(fileH, Endian.Little)
         val h = sac.header
         val y = sac.first
 
@@ -109,9 +109,9 @@ class SacTest {
     }
 
     @Test
-    fun test_empty() {
+    fun empty() {
         val fileN = File("src/test/resources/test_new.sac")
-        Sac.empty(file = fileN, endian = Endian.Little).use {
+        Sac.empty(fileN, Endian.Little).use {
             val h = it.header
             h.iftype = SacFileType.Time.iftype
 
@@ -119,7 +119,7 @@ class SacTest {
             it.write()
         }
 
-        val sac = Sac.read(file = fileN, endian = Endian.Little)
+        val sac = Sac.read(fileN, Endian.Little)
         val h1 = sac.header
         val y = sac.first
 
