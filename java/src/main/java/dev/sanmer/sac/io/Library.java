@@ -10,7 +10,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class SacLibrary {
+public class Library {
     private static final String LIBRARY_NAME = "libsac-jni.dylib";
 
     public static void load() {
@@ -24,7 +24,7 @@ public class SacLibrary {
             return sacJniLibraryPath;
         }
 
-        URL libraryURL = SacLibrary.class.getResource("/" + LIBRARY_NAME);
+        URL libraryURL = Library.class.getResource("/" + LIBRARY_NAME);
         if (libraryURL == null || !libraryURL.getProtocol().equals("jar")) {
             throw new LinkageError("Load " + LIBRARY_NAME);
         }

@@ -56,7 +56,7 @@ public class Sac implements Closeable {
     }
 
     static {
-        SacLibrary.load();
+        Library.load();
     }
 
     private static native long readHeader(String path, int endian);

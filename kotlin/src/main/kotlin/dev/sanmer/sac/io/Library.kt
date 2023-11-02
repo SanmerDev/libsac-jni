@@ -5,7 +5,7 @@ import java.io.FileOutputStream
 import java.nio.file.Files
 
 
-object SacLibrary {
+object Library {
     private const val LIBRARY_NAME = "libsac-jni.dylib"
 
     fun load() {

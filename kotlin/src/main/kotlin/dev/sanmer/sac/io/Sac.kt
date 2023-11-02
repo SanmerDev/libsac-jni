@@ -26,7 +26,7 @@ class Sac(
 
     companion object {
         init {
-            SacLibrary.load()
+            Library.load()
         }
 
         @JvmStatic
