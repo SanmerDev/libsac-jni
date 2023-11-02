@@ -3,7 +3,7 @@ fun configureTarget(id: String, debug: Boolean, fileName: String, bundleName: St
         group = "build"
 
         inputs.dir(file("crate/src"))
-        inputs.files(file("crate/Cargo.toml"), file("crate/Cargo.lock"), file("crate/Cross.toml"))
+        inputs.files(file("crate/Cargo.toml"), file("crate/Cargo.lock"))
         outputs.file(file("crate/target/${if (debug) "debug" else "release"}/$fileName"))
 
         commandLine(listOf("cargo", "build", "--lib") + if (!debug) listOf("--release") else emptyList())
