@@ -15,7 +15,7 @@ fun configureTarget(id: String, fileName: String, bundleName: String) {
     val jar = tasks.register<Jar>("bundleJar$name") {
         val buildDir = file(layout.buildDirectory)
         destinationDirectory.set(buildDir.resolve("jars"))
-        archiveBaseName.set("runtime-${id}")
+        archiveBaseName.set("${rootProject.name}-runtime-${id}")
         entryCompression = ZipEntryCompression.DEFLATED
         isPreserveFileTimestamps = false
 
