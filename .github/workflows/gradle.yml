@@ -45,8 +45,5 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
-      - name: Test Java
-        run: ./gradlew java:test
-
-      - name: Test Kotlin
-        run: ./gradlew kotlin:test
+      - name: Test
+        run: ./gradlew darwinTest

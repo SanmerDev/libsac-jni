@@ -2,9 +2,7 @@
 
 rootProject.name = "libsac-jni"
 
-include("kotlin")
-include("java")
-include("jni")
+include("runtime")
 
 dependencyResolutionManagement {
     repositories {
