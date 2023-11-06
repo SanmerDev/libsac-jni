@@ -32,9 +32,16 @@ kotlin {
     }
 
     sourceSets {
+        commonMain {
+            dependencies {
+                implementation(kotlin("stdlib"))
+            }
+        }
+
         commonTest {
             dependencies {
-                implementation(kotlin("test", version = "1.9.10"))
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
             }
         }
 
