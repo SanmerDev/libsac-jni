@@ -10,8 +10,8 @@ internal interface Library {
 
     companion object {
         internal fun <T: Library> T.getLibrary(): String {
-            if (System.getenv("SAC_JNI_LIBRARY_PATH") != null) {
-                return System.getenv("SAC_JNI_LIBRARY_PATH")
+            if (System.getenv("LIBSAC_JNI_PATH") != null) {
+                return System.getenv("LIBSAC_JNI_PATH")
             }
 
             val libraryURL = checkNotNull(javaClass.getResource("/${name}"))
