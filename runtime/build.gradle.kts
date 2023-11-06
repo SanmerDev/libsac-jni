@@ -35,7 +35,7 @@ fun configureTarget(id: String, fileName: String, bundleName: String) {
 
 configureTarget("darwin", "libjni.dylib", "libsac-jni.dylib")
 configureTarget("linux", "libjni.so", "libsac-jni.so")
-configureTarget("mingw", "libjni.dll", "libsac-jni.dll")
+configureTarget("mingw", "jni.dll", "sac-jni.dll")
 
 task<Delete>("clean") {
     group = "build"
