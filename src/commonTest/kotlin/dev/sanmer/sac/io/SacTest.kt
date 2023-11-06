@@ -1,8 +1,8 @@
 package dev.sanmer.sac.io
 
+import org.junit.Assert.assertEquals
 import java.io.File
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class SacTest {
     private val file = File("src/commonTest/resources/test.sac")
