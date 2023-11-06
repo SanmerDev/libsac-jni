@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SacTest {
-    private val file = File("src/darwinTest/resources/test.sac")
+    private val file = File("src/commonTest/resources/test.sac")
 
     @Test
     fun read() {
@@ -54,7 +54,7 @@ class SacTest {
 
     @Test
     fun write() {
-        val fileT = File("src/darwinTest/resources/test_t.sac")
+        val fileT = File("src/commonTest/resources/test_t.sac")
 
         Sac.read(file, Endian.Little).use {
             it.setEndian(Endian.Big)
@@ -79,7 +79,7 @@ class SacTest {
 
     @Test
     fun writeHeader() {
-        val fileH = File("src/darwinTest/resources/test_h.sac")
+        val fileH = File("src/commonTest/resources/test_h.sac")
         file.copyTo(fileH)
 
         Sac.readHeader(fileH, Endian.Little).use {
@@ -110,7 +110,7 @@ class SacTest {
 
     @Test
     fun empty() {
-        val fileN = File("src/darwinTest/resources/test_new.sac")
+        val fileN = File("src/commonTest/resources/test_new.sac")
         Sac.empty(fileN, Endian.Little).use {
             val h = it.header
             h.iftype = SacFileType.Time.iftype

@@ -39,9 +39,20 @@ kotlin {
         }
 
         named("darwinTest") {
-            dependsOn(commonTest.get())
             dependencies {
                 implementation(project(":runtime", configuration = "darwin"))
+            }
+        }
+
+        named("linuxTest") {
+            dependencies {
+                implementation(project(":runtime", configuration = "linux"))
+            }
+        }
+
+        named("mingwTest") {
+            dependencies {
+                implementation(project(":runtime", configuration = "mingw"))
             }
         }
     }
