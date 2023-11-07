@@ -9,25 +9,25 @@ kotlin {
 
     jvm("android") {
         attributes {
-            attribute(customTarget, "android")
+            attribute(customTarget, name)
         }
     }
 
     jvm("darwin") {
         attributes {
-            attribute(customTarget, "darwin")
+            attribute(customTarget, name)
         }
     }
 
     jvm("linux") {
         attributes {
-            attribute(customTarget, "linux")
+            attribute(customTarget, name)
         }
     }
 
     jvm("mingw") {
         attributes {
-            attribute(customTarget, "mingw")
+            attribute(customTarget, name)
         }
     }
 
