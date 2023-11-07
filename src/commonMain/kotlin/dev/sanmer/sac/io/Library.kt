@@ -13,7 +13,12 @@ internal interface Library {
         private const val TMP = "sac-jni"
 
         internal fun <T: Library> T.getLibrary(): String {
-            System.getenv(PATH)?.let { path ->
+            val path = System.getenv(PATH)?.let {
+                val path = File(it)
+                if (path.exists()) path.absolutePath else null
+            }
+
+            if (path != null) {
                 return path
             }
 
