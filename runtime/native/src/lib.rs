@@ -22,7 +22,7 @@ fn get_path(env: &mut JNIEnv, path: &JString) -> String {
     }
 }
 
-fn safe_read<F>(env: &mut JNIEnv, read: F) -> jlong
+fn read<F>(env: &mut JNIEnv, read: F) -> jlong
 where
     F: Fn() -> Result<Sac, SacError>,
 {
@@ -37,7 +37,7 @@ where
     }
 }
 
-fn safe_write<F>(env: &mut JNIEnv, write: F)
+fn write<F>(env: &mut JNIEnv, write: F)
 where
     F: Fn() -> Result<(), SacError>,
 {
@@ -92,7 +92,8 @@ pub extern "system" fn Java_dev_sanmer_sac_io_Sac_readHeader(
     let path = get_path(&mut env, &path);
     let path = Path::new(&path);
     let endian = env.get_sac_endian(endian);
-    safe_read(&mut env, || Sac::read_header(path, endian))
+
+    read(&mut env, || Sac::read_header(path, endian))
 }
 
 #[no_mangle]
@@ -105,7 +106,8 @@ pub extern "system" fn Java_dev_sanmer_sac_io_Sac_read(
     let path = get_path(&mut env, &path);
     let path = Path::new(&path);
     let endian = env.get_sac_endian(endian);
-    safe_read(&mut env, || Sac::read(path, endian))
+
+    read(&mut env, || Sac::read(path, endian))
 }
 
 #[no_mangle]
@@ -130,7 +132,7 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_writeHeader(
     ptr: jlong,
 ) {
     let sac = &*(ptr as *mut Sac);
-    safe_write(&mut env, || sac.write_header());
+    write(&mut env, || sac.write_header());
 }
 
 #[no_mangle]
@@ -140,7 +142,7 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_write(
     ptr: jlong,
 ) {
     let sac = &*(ptr as *mut Sac);
-    safe_write(&mut env, || sac.write());
+    write(&mut env, || sac.write());
 }
 
 #[no_mangle]
@@ -152,8 +154,9 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_writeTo(
 ) {
     let path = get_path(&mut env, &path);
     let path = Path::new(&path);
+
     let sac = &*(ptr as *mut Sac);
-    safe_write(&mut env, || sac.write_to(path));
+    write(&mut env, || sac.write_to(path));
 }
 
 #[no_mangle]
@@ -199,6 +202,7 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_setEndian(
     endian: jint,
 ) {
     let endian = env.get_sac_endian(endian);
+
     let sac = &mut *(ptr as *mut Sac);
     sac.set_endian(endian);
 }
@@ -220,8 +224,10 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_getFirst<'local>(
     ptr: jlong,
 ) -> JFloatArray<'local> {
     let sac = &*(ptr as *mut Sac);
+
     let array = new_float_array(&mut env, sac.first.len() as jsize);
     set_float_array(&mut env, &array, &sac.first);
+
     array
 }
 
@@ -243,8 +249,10 @@ pub unsafe extern "system" fn Java_dev_sanmer_sac_io_Sac_getSecond<'local>(
     ptr: jlong,
 ) -> JFloatArray<'local> {
     let sac = &*(ptr as *mut Sac);
+
     let array = new_float_array(&mut env, sac.second.len() as jsize);
     set_float_array(&mut env, &array, &sac.second);
+
     array
 }
 
